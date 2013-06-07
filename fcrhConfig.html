@@ -1,0 +1,408 @@
+﻿<!-- 
+    Author: Túlio Fernandes
+    Date: May, 2012
+    Company: FIT (Flextronics Institute of Technology)
+    Description: Mockup for the FCRH(Fale com o RH) project
+
+                               `-.
+              -._ `. `-.`-. `-.
+             _._ `-._`.   .--.  `.
+          .-'   '-.  `-|\/    \|   `-.
+        .'         '-._\   (o)O) `-.
+       /         /         _.--.\ '. `-. `-.
+      /|    (    |  /  -. ( -._( -._ '. '.
+     /  \    \-.__\ \_.-'`.`.__'.   `-, '. .'
+     |  /\    |  / \ \     `--')/  .-'.'.'
+ .._/  /  /  /  / / \ \          .' . .' .'
+/  ___/  |  /   \ \  \ \__       '.'. . .
+\  \___  \ (     \ \  `._ `.     .' . ' .'
+ \ `-._\ (  `-.__ | \    )//   .'  .' .-'
+  \_-._\  \  `-._\)//    ""_.-' .-' .' .'
+    `-'    \ -._\ ""_..--''  .-' .'
+            \/    .' .-'.-'  .-' .-'
+                .-'.' .'  .' .-'
+
+"PRECIOUSSSS!! What has the nasty Bagginsess
+           got in it's pocketssss?"
+-->
+
+<!DOCTYPE html> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<link rel="stylesheet" type="text/css" href="content/css/bootstrap-responsive.min.css">
+<link rel="stylesheet" type="text/css" href="content/css/bootstrap.min.css">
+
+<script type="text/javascript" src="content/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="content/js/bootstrap.js"></script>
+<script type="text/javascript" src="content/js/bootbox.min.js"></script>
+<!--
+<script type="text/javascript" src="content/js/bootbox.js"></script>
+
+Dava bug no modal, pelo visto o modal já existe no pacote padrão
+<script type="text/javascript" src="content/js/bootstrap-modal.js"></script>-->
+<script type="text/javascript" src="content/js/bootstrap-transition.js"></script>
+ 
+<script type="text/javascript">
+    var listaEmails;
+    var listaSetores;
+    
+	$(document).ready(function () {
+        $('#btnAdicionaEmail').click(function () {
+            $('#modalAdicionaEmail').modal('hide');
+        });
+        
+        $('#btnAdicionaSetor').click(function () {
+            $('#modalAdicionaSetor').modal('hide');
+        });
+        
+        $('#btnAdicionaTipo').click(function () {
+            $('#modalAdicionaTipo').modal('hide');
+        });
+        
+        $('#btnAdicionaStatus').click(function () {
+            $('#modalAdicionaStatus').modal('hide');
+        });
+        
+        $(".nav > li").click(function(){
+			// this line will remove class active from every li
+			$(".nav > li").removeClass("active");
+			
+			$(this).addClass("active");
+		});
+
+        // Set up format String function
+        String.prototype.format = String.prototype.f = function() {
+            var s = this,
+                i = arguments.length;
+
+            while (i--) {
+                s = s.replace(new RegExp('\\{' + i + '\\}', 'gm'), arguments[i]);
+            }
+            return s;
+        };
+        
+        criaTabelaEmail();
+        criaTabelaSetores();
+        criaTabelaTipos();
+        criaTabelaStatus();
+	});
+    
+    function criaTabelaStatus() {
+        var status = new Array("Pendente", "Respondida", "Em atraso");
+        var tableRow = "<tr><td onclick='deletarStatus(this)'><i class='icon-remove'></i></td><td>{0}</td></tr>";
+        
+        $.each(status, function (index, stat) {
+            $('#tabelaStatus').append(tableRow.format(stat));
+        });
+    }
+    
+    function criaTabelaTipos() {
+        var tipos = new Array("Pergunta", "Elogio", "Sugestão", "Reclamação");
+        var tableRow = "<tr><td onclick='deletarTipo(this)'><i class='icon-remove'></i></td><td>{0}</td></tr>";
+        
+        $.each(tipos, function (index, tipo) {
+            $('#tabelaTipos').append(tableRow.format(tipo));
+        });
+    }
+    
+    function criaTabelaSetores() {
+        var setor1 = new Object();
+        setor1.id = '1';
+        setor1.nome='Warehouse';
+        setor1.email = 'marcia@gmail.com';
+        
+        var setor2 = new Object();
+        setor2.id = '2';
+        setor2.nome='TI';
+        setor2.email = 'pendegas@hotmail.com';
+        
+        var setor3 = new Object();
+        setor3.id = '3';
+        setor3.nome='Facilities';
+        setor3.email = 'pablora@gmail.com';
+        
+        var setor4 = new Object();
+        setor4.id = '4';
+        setor4.nome='Puras';
+        setor4.email = 'peloluis@gmail.com';
+
+        listaSetores = new Array(setor1, setor2, setor3, setor4);
+
+        $.each(listaSetores, function(index, setor) {
+            var tableRow;
+            
+            tableRow = "<tr id='{0}'><td onclick='deletarSetor(this)'><i class='icon-remove'></i></td><td>{1}</td><td>{2}</td></tr>";
+            
+            tableRow = tableRow.format(setor.id, setor.nome, setor.email);
+            
+            $('#corpoTabelaSetores').append(tableRow);
+                        
+
+        });
+    }
+    
+    function criaTabelaEmail() {
+        var email1 = new Object();
+        email1.id = '1';
+        email1.nome='Marcia Canelas';
+        email1.email = 'marcia@gmail.com';
+        
+        var email2 = new Object();
+        email2.id = '2';
+        email2.nome='João Pendegas';
+        email2.email = 'pendegas@hotmail.com';
+        
+        var email3 = new Object();
+        email3.id = '3';
+        email3.nome='Pablo Ralhalo';
+        email3.email = 'pablora@gmail.com';
+        
+        var email4 = new Object();
+        email4.id = '4';
+        email4.nome='Rufino Luis Pelo';
+        email4.email = 'peloluis@gmail.com';
+        
+        var email5 = new Object();
+        email5.id = '5';
+        email5.nome='Túlio Fernandes';
+        email5.email = 'tulio.fernandes@gmail.com';
+
+        listaEmails = new Array(email1, email2, email3, email4, email5);
+
+        $.each(listaEmails, function(index, email) {
+            var tableRow;
+            
+            tableRow = "<tr id='{0}'>" +
+            "<td onclick='deletarEmail(this)'><i class='icon-remove'></i></td>" +
+            "<td>{1}</td>" +
+            "<td>{2}</td></tr>";
+            
+            tableRow = tableRow.format(email.id, email.nome, email.email);
+            
+            $('#corpoTabelaEmails').append(tableRow);
+                        
+
+        });
+    }
+</script>
+ 
+<title>Fale com o RH</title>
+</head>
+<body>
+	<div class="navbar">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+				<a class="brand" href="#">Fale com o RH - Configurações</a>
+				<div class="nav-collapse">
+					<ul class="nav">
+						<li><a href="fcrhAdm.html">Mensagens</a></li>
+						<li class="active"><a href="fcrhConfig.html">Configurações</a></li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div>
+		</div>
+	</div>
+
+	<div class="container" id="listaContatos">
+	   	<div class="row span5">
+            <h1>Configurações</h1>
+            <br />
+            <div class="well span5">
+                <h3>Lista de e-mails</h3>
+                <table id="tabelaEmails" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Nome</th>
+                            <th>E-mail</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoTabelaEmails">
+                        
+                    </tbody>
+                </table>
+                <p>
+                    <a class="btn" data-toggle="modal" href="#modalAdicionaEmail" data-backdrop="static">Adicionar e-mail</a>
+                </p>
+            </div>
+            
+            <div class="well span5">
+                <h3>Setores</h3>
+                <table id="tabelaSetores" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Setor</th>
+                            <th>E-mails</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoTabelaSetores">
+                        
+                    </tbody>
+                </table>
+                <p>
+                    <a class="btn" data-toggle="modal" href="#modalAdicionaSetor" data-backdrop="static">Adicionar setor</a>
+                </p>
+            </div>
+            
+            <div class="well span5">
+                <h3>Tipos de mensagem</h3>
+                <table id="tabelaTipos" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Tipo da mensagem</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoTabelaTipos">
+                        
+                    </tbody>
+                </table>
+                <p>
+                    <a class="btn" data-toggle="modal" href="#modalAdicionaTipo" data-backdrop="static">Adicionar tipo</a>
+                </p>
+            </div>
+            
+            <div class="well span5">
+                <h3>Status de mensagem</h3>
+                <table id="tabelaStatus" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Status da mensagem</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoTabelaStatus">
+                        
+                    </tbody>
+                </table>
+                <p>
+                    <a class="btn" data-toggle="modal" href="#modalAdicionaStatus" data-backdrop="static">Adicionar status</a>
+                </p>
+            </div>
+        </div>
+	</div>
+
+    <div class="modal hide fade" style="width: 300px" id="modalAdicionaEmail">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal">×</button>
+            <h3>Adicionar e-mail</h3>
+        </div>
+        <div class="modal-body">
+            <div class="control-group">
+                <label class="control-label" for="name">Nome</label>
+                <div class="controls">
+                    <div class="input-prepend">
+                        <span class="add-on">
+                            <i class="icon-user"></i>
+                        </span>
+                        <input type="text" name="novoNome" class="text" value="" id="txtNovoNome"/>
+                    </div>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="txtNovoEmail">E-mail</label>
+                <div class="controls">
+                    <div class="input-prepend">
+                        <span class="add-on">
+                            <i class="icon-envelope"></i>
+                        </span>
+                        <input type="email" name="novoEmail" class="text" value="" id="txtNovoEmail" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Fechar</a>
+            <a href="#" id="btnAdicionaEmail" class="btn btn-primary">Salvar</a>
+        </div>
+    </div>
+    
+    <div class="modal hide fade" style="width: 300px" id="modalAdicionaTipo">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal">×</button>
+            <h3>Adicionar tipo de mensagem</h3>
+        </div>
+        <div class="modal-body">
+            <div class="control-group">
+                <label class="control-label" for="name">Tipo da mensagem</label>
+                <div class="controls">
+                    <div class="input-prepend">
+                        <span class="add-on">
+                            <i class="icon-list-alt"></i>
+                        </span>
+                        <input type="text" name="novoTipo" class="text" value="" id="txtNovoTipo"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Fechar</a>
+            <a href="#" id="btnAdicionaTipo" class="btn btn-primary">Salvar</a>
+        </div>
+    </div>
+    
+    <div class="modal hide fade" style="width: 300px" id="modalAdicionaSetor">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal">×</button>
+            <h3>Adicionar setor</h3>
+        </div>
+        <div class="modal-body">
+            <div class="control-group">
+                <label class="control-label" for="name">Nome do setor</label>
+                <div class="controls">
+                    <div class="input-prepend">
+                        <span class="add-on">
+                            <i class="icon-th-large"></i>
+                        </span>
+                        <input type="text" name="novoSetor" class="text" value="" id="txtNovoSetor"/>
+                    </div>
+                </div>
+            </div>
+            <label>E-mail dos responsáveis pelo setor</label>
+            <textarea id="txaEmailsDoSetor" style="width: 240px; height: 200px"></textarea>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Fechar</a>
+            <a href="#" id="btnAdicionaSetor" class="btn btn-primary">Salvar</a>
+        </div>
+    </div>
+    
+    <div class="modal hide fade" style="width: 300px" id="modalAdicionaStatus">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal">×</button>
+            <h3>Adicionar status de mensagem</h3>
+        </div>
+        <div class="modal-body">
+            <div class="control-group">
+                <label class="control-label" for="name">Status da mensagem</label>
+                <div class="controls">
+                    <div class="input-prepend">
+                        <span class="add-on">
+                            <i class="icon-list-alt"></i>
+                        </span>
+                        <input type="text" name="novoStatus" class="text" value="" id="txtNovoStatus"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Fechar</a>
+            <a href="#" id="btnAdicionaStatus" class="btn btn-primary">Salvar</a>
+        </div>
+    </div>
+
+	<footer>
+		<div class="container">
+			<p>Copyright 2012 - FIT </p>
+		</div>
+	</footer>
+</body>
+</html>
